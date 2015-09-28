@@ -51,7 +51,7 @@ var placeList = [
 ];
 
 /**** GOOGLE MAPS ****/
- var initMap = function() {
+ function initMap() {
   // Map options centered on manhattan
   center = new google.maps.LatLng(40.759976, -73.9799772);
   var mapOptions = {
@@ -109,9 +109,6 @@ var placeList = [
 /**** VIEWMODEL ****/
 var ViewModel = function(){
   var self = this;
-
-  // Load Google Maps based on options that are written in the initMap function
-  google.maps.event.addDomListener(window, 'load', initMap);
   
   self.placeList = ko.observableArray(placeList);
   self.mapPins = ko.observableArray(mapPins);
