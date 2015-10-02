@@ -82,7 +82,7 @@ li {
 	width: 100%;
 }
 
-@media (max-width: 598px)  {
+@media (max-width: 598px) {
 	#content {
 		width: 100%;
 		font-size: 10px;
@@ -116,6 +116,5 @@ li {
 		width: 20%;
 		min-width: 10%;
 		float: right;
-		overflow-y: scroll
 	}
 }

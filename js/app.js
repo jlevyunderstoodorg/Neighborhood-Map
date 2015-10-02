@@ -1,4 +1,4 @@
-"use strict";
+'use strict';
 
 // Global variables
 var infowindow;
@@ -6,6 +6,8 @@ var map;
 var marker;
 var center;
 var placeList;
+var latOffset;
+var lonOffset;
 
 // Used to store pins on map
 var mapPins = [];
@@ -56,7 +58,10 @@ var placeList = [
   center = new google.maps.LatLng(40.759976, -73.9799772);
   var mapOptions = {
     zoom: 13,
-    center: center
+    center: center,
+    panControl: false,
+    scaleControl: false,
+    zoomControl: false
   };
 
   // assign Google Map to map view
@@ -86,6 +91,7 @@ var placeList = [
         center = marker.getPosition();
         map.panTo(center);
         map.setZoom(15);
+        map.panBy(lonOffset,latOffset);
 
         // when marker or placelist item is clicked marker will bounce twice and then stop
         marker.setAnimation(google.maps.Animation.BOUNCE);
@@ -97,8 +103,9 @@ var placeList = [
     })(marker));
   
     // Keeps map centered when window is resized
-    google.maps.event.addDomListener(window, "resize", function() {
+    google.maps.event.addDomListener(window, 'resize', function() {
       map.setCenter(center);
+      map.panBy(lonOffset,latOffset); 
     });
   
     // Adds pins to mapPins array
@@ -122,6 +129,7 @@ var ViewModel = function(){
     center = point.getPosition();
     map.panTo(center);
     map.setZoom(15);
+    map.panBy(lonOffset,latOffset);
 
     // set and open the content within the infowindow
     var infowindowContent = '<div class="window-title">%title%</div>';
@@ -195,7 +203,7 @@ var getFourSquare = function(marker){
     var venue = response.response.venues[0];
     var venuePhone = venue.contact.formattedPhone;
     var venueTwitter = venue.contact.twitter;
-    var venueFacebook = venue.contact.facebookName;
+    var venueFacebook = venue.contact.facebookUsername;
     var venueUrl = venue.url;
     
     // Append foursquare info to infowindow
@@ -209,6 +217,10 @@ var getFourSquare = function(marker){
     $windowContent.text('No location info found for place.');
   });
 };
+
+// this moves the marker down and to the right.
+latOffset = window.screen.height * -0.2;
+lonOffset = window.screen.width * -0.14;
 
 // Initialize the ViewModel by using knockout
 ko.applyBindings(new ViewModel());
